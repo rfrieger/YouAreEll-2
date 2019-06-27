@@ -1,22 +1,35 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import models.Id;
+import models.Message;
 
 public class IdController {
-    Id myId;
+    private ArrayList<Id> myId;
 
-    public ArrayList<Id> getIds() {
-        return null;
+    public IdController() { }
+
+    public IdController(ArrayList<Id> set) {
+        this.myId = set;
     }
 
-    public Id postId(Id id) {
-        return null;
+    public ArrayList<Id> getMyId() {
+        return myId;
     }
 
-    public Id putId(Id id) {
-        return null;
+    public void setMyId(ArrayList<Id> myId) {
+        this.myId = myId;
     }
+
+//    public Id postId(Id id) {
+//        return null;
+//    }
+//
+//    public Id putId(Id id) {
+//        return null;
+//    }
+
  
 }

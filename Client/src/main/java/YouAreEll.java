@@ -1,16 +1,23 @@
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.*;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import models.Id;
+import models.Message;
+import okhttp3.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class YouAreEll {
 
     private MessageController msgCtrl;
     private IdController idCtrl;
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
+    ObjectMapper mapper = new ObjectMapper();
+
 
 
 
@@ -46,25 +53,40 @@ public class YouAreEll {
                     .build();
 
             try (Response response = client.newCall(request).execute()) {
-                return response.body().string();
+                String responseBody = response.body().string();
+
+                if (mainurl.equals( "/ids")) {
+
+//                    List<Id> results = mapper.readValue(responseBody,
+//                            new TypeReference<List<Id>>() {} );
+////
+//                    ArrayList<Id>  = mapper.readValue(responseBody, ArrayList.class);
+//                    idCtrl.setMyId(names);
+//                    return idCtrl.getMyId().get(0).getName();
+                    return responseBody;
+                }else if (mainurl.equals("/messages")){
+//                    HashSet<Message> messages = mapper.readValue(responseBody, HashSet.class);
+//                    msgCtrl.setMessagesSeen(messages);
+                    return responseBody;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
 
-//        else if(method.equals("POST")){
-//            RequestBody body = RequestBody.create(JSON, jpayload);
-//            Request request = new Request.Builder()
-//                    .url(urlString)
-//                    .post(body)
-//                    .build();
-//            try(Response response = client.newCall(request).execute()){
-//                return response.body().string();
-//            }catch (IOException e){
-//                e.printStackTrace();
-//            }
-//        }
-        return "nada";
+        else if(method.equals("POST")){
+            RequestBody body = RequestBody.create(JSON, jpayload);
+            Request request = new Request.Builder()
+                    .url(urlString)
+                    .post(body)
+                    .build();
+            try(Response response = client.newCall(request).execute()){
+                return response.body().string();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        return "data";
     }
 }

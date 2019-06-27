@@ -9,6 +9,8 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.IdController;
 import controllers.MessageController;
+import models.Id;
+import models.Message;
 
 // Simple Shell is a Console view for YouAreEll.
 public class SimpleShell {
@@ -21,12 +23,14 @@ public class SimpleShell {
 
             String printOut = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
             System.out.println(printOut);
+
         }catch(IOException x){
             x.printStackTrace();
         }
+
     }
     public static void main(String[] args) throws java.io.IOException {
-
+        ObjectMapper mapper = new ObjectMapper();
         YouAreEll webber = new YouAreEll(new MessageController(), new IdController());
         
         String commandLine;
@@ -70,16 +74,36 @@ public class SimpleShell {
                     continue;
                 }
 
-                // Specific Commands.
+                ///send messages
+                //send name message
+                if(list.contains("send") && (list.size() == 3)){
+                   String name = list.get(1);
+                   String message = list.get(2);
+                   Message newMessage = new Message(message, name);
+                   String messageToSend = mapper.writeValueAsString(newMessage);
+                   webber.MakeURLCall("/ids/"+name+"/messages", "POST", messageToSend);
+                   continue;
+               }
+                //ids your_name your_github_id
+                // new ids name gitname
+                //post id
+                if(list.contains("ids") && list.contains("new")) {
+                    String name = list.get(2);
+                    String gitID = list.get(3);
+                    Id newMessage = new Id(name, gitID);
+                    String messageSend = mapper.writeValueAsString(newMessage);
+                    webber.MakeURLCall("/ids", "POST", messageSend);
+                    continue;
+                }
 
-                // ids
-                if (list.contains("ids")) {
+                //  gets ids
+                if (list.contains("ids") && (list.size() == 1)) {
                     String results = webber.get_ids();
                     SimpleShell.prettyPrint(results);
                     continue;
                 }
 
-                // messages
+                //  gets messages
                 if (list.contains("messages")) {
                     String results = webber.get_messages();
                     SimpleShell.prettyPrint(results);

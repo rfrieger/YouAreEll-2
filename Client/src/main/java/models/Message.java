@@ -5,7 +5,7 @@ package models;
  */
 public class Message {
     private String sequence;
-    private String timestamp;
+    private String timestamp = "2019-06-27T19:12:19.300040137Z";
     private String fromID;
     private String toID;
     private String message;
@@ -19,8 +19,14 @@ public class Message {
     }
 
     public Message (String message, String fromId, String toId) {
+        this.sequence = "-";
         this.fromID = fromId;
         this.toID = toId;
+        this.message = message;
+    }
+
+    public Message (String message, String fromID) {
+        this.fromID = fromID;
         this.message = message;
     }
 
