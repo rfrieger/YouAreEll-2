@@ -1,4 +1,3 @@
-package views;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.IdController;
 import controllers.MessageController;
 
@@ -15,8 +15,15 @@ public class SimpleShell {
 
 
     public static void prettyPrint(String output) {
-        // yep, make an effort to format things nicely, eh?
-        System.out.println(output);
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            Object json = mapper.readValue(output, Object.class);
+
+            String printOut = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+            System.out.println(printOut);
+        }catch(IOException x){
+            x.printStackTrace();
+        }
     }
     public static void main(String[] args) throws java.io.IOException {
 
@@ -78,7 +85,8 @@ public class SimpleShell {
                     SimpleShell.prettyPrint(results);
                     continue;
                 }
-                // you need to add a bunch more.
+
+
 
                 //!! command returns the last command in history
                 if (list.get(list.size() - 1).equals("!!")) {
