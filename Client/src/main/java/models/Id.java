@@ -9,6 +9,12 @@ public class Id {
     private String name;
     private String github;
 
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    private String userid;
+
     public Id(String name, String id, String github){
         this.id = id;
         this.name = name;
@@ -20,6 +26,8 @@ public class Id {
         this.name = name;
         this.github = githubId;
     }
+
+    public Id(){};
 
     public String getId() {
         return id;
@@ -55,5 +63,9 @@ public class Id {
                 "name:" + name + '\'' +
                 ", github:'" + github + '\'' +
                 '}';
+    }
+
+    public String getUserid() {
+        return userid;
     }
 }

@@ -6,29 +6,31 @@ package models;
 public class Message {
     private String sequence;
     private String timestamp = "2019-06-27T19:12:19.300040137Z";
-    private String fromID;
+//    private String fromID;
     private String toID;
     private String message;
 
     public Message (String sequence, String timestamp, String fromID, String toID, String message ){
         this.sequence = sequence;
         this.timestamp = timestamp;
-        this.fromID = fromID;
+        //this.fromID = fromID;
         this.toID = toID;
         this.message = message;
     }
 
     public Message (String message, String fromId, String toId) {
         this.sequence = "-";
-        this.fromID = fromId;
+       // this.fromID = fromId;
         this.toID = toId;
         this.message = message;
     }
 
     public Message (String message, String fromID) {
-        this.fromID = fromID;
+       // this.fromID = fromID;
         this.message = message;
     }
+
+    public Message(){};
 
     public String getSequence() {
         return sequence;
@@ -46,13 +48,13 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-    public String getFromID() {
-        return fromID;
-    }
-
-    public void setFromID(String fromID) {
-        this.fromID = fromID;
-    }
+//    public String getFromID() {
+//        return fromID;
+//    }
+//
+//    public void setFromID(String fromID) {
+//        this.fromID = fromID;
+//    }
 
     public String getToID() {
         return toID;
@@ -71,14 +73,14 @@ public class Message {
     }
 
 
-    @Override
-    public String toString() {
-        return "{" +
-                "sequence:'" + sequence + '\'' +
-                ", timestamp:'" + timestamp + '\'' +
-                ", fromID:'" + fromID + '\'' +
-                ", toID:'" + toID + '\'' +
-                ", message:'" + message + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "{" +
+//                "sequence:'" + sequence + '\'' +
+//                ", timestamp:'" + timestamp + '\'' +
+//                ", fromID:'" + fromID + '\'' +
+//                ", toID:'" + toID + '\'' +
+//                ", message:'" + message + '\'' +
+//                '}';
+//    }
 }

@@ -10,6 +10,8 @@ import models.Message;
 public class MessageController {
 
 
+
+
     private HashSet<Message> messagesSeen;
     // why a HashSet??
 

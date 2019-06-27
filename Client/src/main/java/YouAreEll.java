@@ -6,7 +6,6 @@ import models.Message;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -57,23 +56,20 @@ public class YouAreEll {
 
                 if (mainurl.equals( "/ids")) {
 
-//                    List<Id> results = mapper.readValue(responseBody,
-//                            new TypeReference<List<Id>>() {} );
-////
-//                    ArrayList<Id>  = mapper.readValue(responseBody, ArrayList.class);
-//                    idCtrl.setMyId(names);
-//                    return idCtrl.getMyId().get(0).getName();
+                    idCtrl.setIdArrayList(mapper.readValue(responseBody, new TypeReference<List<Id>>(){}));
+                    System.out.println(idCtrl.getIdArrayList().size());
+
                     return responseBody;
                 }else if (mainurl.equals("/messages")){
-//                    HashSet<Message> messages = mapper.readValue(responseBody, HashSet.class);
-//                    msgCtrl.setMessagesSeen(messages);
+
+                    msgCtrl.setMessagesSeen(mapper.readValue(responseBody, new TypeReference<HashSet<Message>>(){}));
+                    System.out.println(msgCtrl.getMessagesSeen().size());
                     return responseBody;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
 
         else if(method.equals("POST")){
             RequestBody body = RequestBody.create(JSON, jpayload);
