@@ -17,16 +17,16 @@ public class SimpleShell {
 
 
     public static void prettyPrint(String output) {
-        ObjectMapper mapper = new ObjectMapper();
-        try{
-            Object json = mapper.readValue(output, Object.class);
-
-            String printOut = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
-            System.out.println(printOut);
-
-        }catch(IOException x){
-            x.printStackTrace();
-        }
+//        ObjectMapper mapper = new ObjectMapper();
+//        try{
+//            Object json = mapper.readValue(output, Object.class);
+//
+//            String printOut = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+//            System.out.println(printOut);
+//
+//        }catch(IOException x){
+//            x.printStackTrace();
+//        }
 
     }
     public static void main(String[] args) throws java.io.IOException {
