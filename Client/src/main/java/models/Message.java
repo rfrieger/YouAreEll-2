@@ -20,13 +20,6 @@ public class Message {
         this.message = message;
     }
 
-    public Message (String message, String fromId, String toId) {
-        this.sequence = "-";
-        this.fromid = fromId;
-        this.toid = toId;
-        this.message = message;
-    }
-
     public Message(String message, String fromid){
         this.fromid = fromid;
         this.message = message;

@@ -1,22 +1,13 @@
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.*;
-import models.Id;
-import models.Message;
 import okhttp3.*;
-
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
 
 public class YouAreEll {
 
     private MessageController msgCtrl;
     private IdController idCtrl;
+    private OkHttpClient client = new OkHttpClient();
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    OkHttpClient client = new OkHttpClient();
-    ObjectMapper mapper = new ObjectMapper();
-
 
 
 
@@ -26,32 +17,47 @@ public class YouAreEll {
         this.idCtrl = j;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // hmm: is this Dependency Injection?
         YouAreEll urlhandler = new YouAreEll(new MessageController(), new IdController());
         System.out.println(urlhandler.MakeURLCall("/ids", "GET", ""));
         System.out.println(urlhandler.MakeURLCall("/messages", "GET", ""));
     }
 
-    public String get_ids() throws IOException {
-        return MakeURLCall("/ids", "GET", "");
+    public String get_ids() {return MakeURLCall("/ids", "GET", "");
     }
 
-    public String get_messages() throws IOException {
+    public String get_messages() {
         return MakeURLCall("/messages", "GET", "");
     }
 
-    public String MakeURLCall(String mainurl, String method, String jpayload) throws IOException {
-        TransactionController tc = new TransactionController(mainurl, method,jpayload, msgCtrl, idCtrl);
 
-        if(method == ("GET")) {
-            tc.getObjectsToControllers();
+    public String MakeURLCall(String mainurl, String method, String jpayload) {
+        TransactionController transCont = new TransactionController(mainurl, method, jpayload, msgCtrl, idCtrl);
+
+        if(method.equals("GET")) {
+            transCont.getToController();
+
         }
-
         else if(method.equals("POST")){
-                tc.PostRespose();
-
+            try {
+                transCont.PostResponse();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return "data";
+
+        else if(method.equals("PUT")){
+            try {
+                transCont.changeNameToGitId();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return "Data";
     }
+
+
 }

@@ -2,38 +2,44 @@ package controllers;
 
 import java.util.ArrayList;
 
-import com.sun.jndi.toolkit.url.UrlUtil;
-import com.sun.org.apache.xpath.internal.operations.String;
+
+
 import models.Id;
 
+
 public class IdController {
-    private String url;
-    private ArrayList<Id> idArrayList;
 
-    public IdController() {
+    private ArrayList<Id> iDList;
+
+    public IdController(){
     }
 
-    public void getIDRespones(String url){
-
+    public IdController(ArrayList<Id> newList){
+        this.iDList = newList;
     }
 
-    public IdController(ArrayList<Id> set) {
-        this.idArrayList = set;
+    public void setiDList(ArrayList<Id> idList){
+        this.iDList= idList;
     }
 
-    public ArrayList<Id> getIdArrayList() {
-        return idArrayList;
+    public ArrayList<Id> getIds() {
+        return iDList;
     }
 
-    public void setIdArrayList(ArrayList<Id> idArrayList) {
-        this.idArrayList = idArrayList;
-    }
-
-    public void print () {
-        for (Id id : idArrayList) {
-            System.out.println(id.toString());
+    public Id ListContains(String toEval){
+        for (Id id: iDList) {
+            if (id.getGithub().equals(toEval)){
+                return id;
+            }
         }
-
-
+        return null;
     }
+
+
+
+
+    public void printList(){
+        iDList.stream().limit(10).forEach(p-> System.out.println(p.toString()));
+    }
+
 }

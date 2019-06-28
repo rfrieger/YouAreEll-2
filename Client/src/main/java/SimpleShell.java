@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,28 +16,23 @@ public class SimpleShell {
 
 
     public static void prettyPrint(String output) {
-//        ObjectMapper mapper = new ObjectMapper();
-//        try{
-//            Object json = mapper.readValue(output, Object.class);
 //
-//            String printOut = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
-//            System.out.println(printOut);
-//
-//        }catch(IOException x){
-//            x.printStackTrace();
-//        }
-
     }
     public static void main(String[] args) throws java.io.IOException {
         ObjectMapper mapper = new ObjectMapper();
-        YouAreEll webber = new YouAreEll(new MessageController(), new IdController());
-        
+        MessageController msgCont = new MessageController();
+        IdController idController = new IdController();
+        YouAreEll webber = new YouAreEll(msgCont, idController);
+
+
+
+
         String commandLine;
         BufferedReader console = new BufferedReader
                 (new InputStreamReader(System.in));
 
         ProcessBuilder pb = new ProcessBuilder();
-        List<String> history = new ArrayList<String>();
+        List<String> history = new ArrayList<>();
         int index = 0;
         //we break out with <ctrl c>
         while (true) {
@@ -74,43 +68,71 @@ public class SimpleShell {
                     continue;
                 }
 
-                ///send messages
-                //send name message
-                if(list.contains("send") && (list.size() == 3)){
-                   String name = list.get(1);
-                   String message = list.get(2);
-                   Message newMessage = new Message(message, name);
-                   String messageToSend = mapper.writeValueAsString(newMessage);
-                   webber.MakeURLCall("/ids/"+name+"/messages", "POST", messageToSend);
-                   continue;
-               }
-                //ids your_name your_github_id
-                // new ids name gitname
-                //post id
-                if(list.contains("ids") && list.contains("new")) {
-                    String name = list.get(2);
-                    String gitID = list.get(3);
-                    Id newMessage = new Id(name, gitID);
-                    String messageSend = mapper.writeValueAsString(newMessage);
-                    webber.MakeURLCall("/ids", "POST", messageSend);
-                    continue;
-                }
+                // Specific Commands.
 
-                //  gets ids
-                if (list.contains("ids") && (list.size() == 1)) {
+                // ids
+                if (list.contains("ids") && list.size() == 1) {
                     String results = webber.get_ids();
-                    SimpleShell.prettyPrint(results);
+                    continue;
+                }
+                //ids new name github
+                if(list.contains("ids") && list.contains("new")){
+                    String name = list.get(2);
+                    String github = list.get(3);
+                    Id newUser = new Id(name, github);
+                    String newUserInfo = mapper.writeValueAsString(newUser);
+                    webber.MakeURLCall("/ids", "POST", newUserInfo);
+
+                    continue;
+                }
+                //change githubId tobechangedto
+                if(list.contains("change") && list.size()==3){
+                    String gitHub = list.get(1);
+                    String toChangeTo = list.get(2);
+                    if (idController.ListContains(gitHub) != null){
+                        Id toChange = idController.ListContains(gitHub);
+                        toChange.setName(toChangeTo);
+                        String jsonpayload = mapper.writeValueAsString(toChange);
+                        webber.MakeURLCall("/ids", "PUT", jsonpayload);
+                    }
                     continue;
                 }
 
-                //  gets messages
-                if (list.contains("messages")) {
+
+                // messages
+                if (list.contains("messages") && (list.size()==1)) {
                     String results = webber.get_messages();
-                    SimpleShell.prettyPrint(results);
+
+                    continue;
+                }
+                //get messages between userID and friendID
+                if(list.contains("get") && (list.contains("between"))){
+                    String name = list.get(3);
+                    String friendID = list.get(5);
+                    webber.MakeURLCall("/ids/"+name+"/from/" + friendID, "GET", "");
                     continue;
                 }
 
+                //send sender message
+                if(list.contains("send") && (list.size() == 3)){
+                    String name = list.get(1);
+                    String message = list.get(2);
+                    Message newMessage = new Message(message, name);
+                    String messageToSend = mapper.writeValueAsString(newMessage);
+                    webber.MakeURLCall("/ids/"+name+"/messages", "POST", messageToSend);
+                    continue;
+                }
+                //get messages userID
+                if(list.contains("messages") && list.contains("get")){
+                    String userId = list.get(2);
+                    webber.MakeURLCall("/ids/" + userId + "/messages", "GET", "");
+                    continue;
 
+                }
+
+
+
+                // you need to add a bunch more.
 
                 //!! command returns the last command in history
                 if (list.get(list.size() - 1).equals("!!")) {

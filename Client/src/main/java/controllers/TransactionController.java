@@ -5,87 +5,108 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Id;
 import models.Message;
 import okhttp3.*;
+
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class TransactionController {
 
+    private String rootURL = "http://zipcode.rocks:8085";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
     ObjectMapper mapper = new ObjectMapper();
-    private String rootURL = "http://zipcode.rocks:8085";
     private String responseBody;
     private MessageController msgCtrl;
     private IdController idCtrl;
-    private String main;
+    private String mainUrl;
     private String method;
-    private String Jpayload;
+    private String jpayload;
 
-    public TransactionController(String main, String method, String Jpayload, MessageController msgCtrl, IdController idCtrl ) throws IOException {
+    public TransactionController(String mainUrl, String method, String jpayload, MessageController msgCtrl, IdController idCtrl) {
+        this.mainUrl = mainUrl;
+        this.method = method;
+        this.jpayload = jpayload;
         this.msgCtrl = msgCtrl;
-        this.idCtrl =idCtrl;
-        this.main = main;
-        this.method =method;
-        this.Jpayload = Jpayload;
+        this.idCtrl = idCtrl;
+
     }
 
-    public String constructUrl() {
-        return rootURL + main;
+    private String buildURL(){
+        return rootURL + mainUrl;
     }
 
-
-    public void setJSONResponse() {
+    public void setJsonResponse(){
         Request request = new Request.Builder()
-                .url(constructUrl())
+                .url(buildURL())
                 .build();
-        try (Response response = client.newCall(request).execute()) {
+        try(Response response = client.newCall(request).execute()){
             this.responseBody = response.body().string();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void getToController(){
+        if(mainUrl.contains("/ids") && mainUrl.contains("/messages")) {
+            getToMessages();
+        }
+
+        else if(mainUrl.contains("/ids") && mainUrl.length()== 5){
+            getToIds();
+        }
+        else if(mainUrl.contains("/messages") && mainUrl.length()== 9){
+            getToMessages();
+        }
+        else if(mainUrl.contains("/ids") && mainUrl.contains("/from")){
+            getToMessages();
+        }
+    }
+
+
+
+    private void getToIds (){
+        setJsonResponse();
+        try{
+            idCtrl.setiDList(mapper.readValue(responseBody, new TypeReference<List<Id>>(){}));
+            idCtrl.printList();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
-    public void getObjectsToControllers()  {
-        switch (main) {
-            case "/ids": {
-                    setJSONResponse();
-                try {
-                    idCtrl.setIdArrayList(mapper.readValue(responseBody, new TypeReference<List<Id>>(){}));
-                    idCtrl.print();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            }
-            case "/messages":{
-
-                setJSONResponse();
-                try {
-                    msgCtrl.setMessagesSeen(mapper.readValue(responseBody, new TypeReference<HashSet<Message>>(){}));
-                    msgCtrl.print();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            }
-            default:
-                System.out.println("stuff");
-                break;
+    private void getToMessages(){
+        setJsonResponse();
+        try{
+            msgCtrl.setMessageSeen(mapper.readValue(responseBody, new TypeReference<LinkedHashSet<Message>>(){}));
+            msgCtrl.printMessages();
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
-    public String PostRespose() throws IOException {
 
-        RequestBody body = RequestBody.create(JSON, Jpayload);
+    public String PostResponse() throws IOException {
+        RequestBody body = RequestBody.create(JSON, jpayload);
 
         Request request = new Request.Builder()
-                .url(constructUrl())
+                .url(buildURL())
                 .post(body)
                 .build();
         Response response = client.newCall(request).execute();
-            return response.body().string();
+        return response.body().string();
+    }
 
+
+    public void changeNameToGitId() throws IOException {
+
+        RequestBody body = RequestBody.create(JSON, jpayload);
+        Request request = new Request.Builder()
+                .url(buildURL())
+                .put(body)
+                .build();
+        Response response = client.newCall(request).execute();
     }
 }

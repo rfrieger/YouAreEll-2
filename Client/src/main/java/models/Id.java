@@ -5,36 +5,32 @@ package models;
  */
 public class Id {
 
-    private String id;
+    private String userid;
     private String name;
     private String github;
 
-    public void setUserid(String userid) {
+
+
+    public Id(String name, String userid, String github){
         this.userid = userid;
-    }
-
-    private String userid;
-
-    public Id(String name, String id, String github){
-        this.id = id;
         this.name = name;
         this.github = github;
     }
 
     public Id(String name, String githubId) {
-        id = "-";
+        userid = "-";
         this.name = name;
         this.github = githubId;
     }
 
     public Id(){};
 
-    public String getId() {
-        return id;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public String getName() {
@@ -56,15 +52,13 @@ public class Id {
 
 
 
+
     @Override
     public String toString() {
         return "================================================\n"+
-                "userid:"  + id + '\n' +
+                "userid:"  + userid + '\n' +
                 "name:" + name + '\n' +
                 "github:'" + github + '\n';
     }
 
-    public String getUserid() {
-        return userid;
-    }
 }
