@@ -57,7 +57,9 @@ public class YouAreEll {
                 if (mainurl.equals( "/ids")) {
 
                     idCtrl.setIdArrayList(mapper.readValue(responseBody, new TypeReference<List<Id>>(){}));
-                    System.out.println(idCtrl.getIdArrayList().size());
+                    for (Id id: idCtrl.getIdArrayList()){
+                        System.out.println(id.toString());
+                    }
 
                     return responseBody;
                 }else if (mainurl.equals("/messages")){
