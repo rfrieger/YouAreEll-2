@@ -66,6 +66,10 @@ public class YouAreEll {
 
                     msgCtrl.setMessagesSeen(mapper.readValue(responseBody, new TypeReference<HashSet<Message>>(){}));
                     System.out.println(msgCtrl.getMessagesSeen().size());
+                    for (Message message: msgCtrl.getMessagesSeen()){
+                        System.out.println(message.toString());
+                    }
+
                     return responseBody;
                 }
             } catch (IOException e) {

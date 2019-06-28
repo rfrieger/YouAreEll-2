@@ -78,12 +78,11 @@ public class Message {
 
     @Override
     public String toString() {
-        return "{" +
-                "sequence:'" + sequence + '\'' +
-                ", timestamp:'" + timestamp + '\'' +
-                ", fromid:'" + fromid + '\'' +
-                ", toid:'" + toid + '\'' +
-                ", message:'" + message + '\'' +
-                '}';
+        return "=====================================================\n"+
+                "sequence:'" + sequence + '\n' +
+                "timestamp:'" + timestamp + '\n' +
+                "fromid:'" + fromid + '\n' +
+                "toid:'" + toid + '\n' +
+                "message:'" + message + '\n';
     }
 }

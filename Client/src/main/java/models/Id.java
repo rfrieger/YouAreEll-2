@@ -58,11 +58,10 @@ public class Id {
 
     @Override
     public String toString() {
-        return "{" +
-                "userid:"  + id + '\'' +
-                "name:" + name + '\'' +
-                ", github:'" + github + '\'' +
-                '}';
+        return "================================================\n"+
+                "userid:"  + id + '\n' +
+                "name:" + name + '\n' +
+                "github:'" + github + '\n';
     }
 
     public String getUserid() {
