@@ -26,68 +26,31 @@ public class YouAreEll {
         this.idCtrl = j;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // hmm: is this Dependency Injection?
         YouAreEll urlhandler = new YouAreEll(new MessageController(), new IdController());
         System.out.println(urlhandler.MakeURLCall("/ids", "GET", ""));
         System.out.println(urlhandler.MakeURLCall("/messages", "GET", ""));
     }
 
-    public String get_ids() {
+    public String get_ids() throws IOException {
         return MakeURLCall("/ids", "GET", "");
     }
 
-    public String get_messages() {
+    public String get_messages() throws IOException {
         return MakeURLCall("/messages", "GET", "");
     }
 
-    public String MakeURLCall(String mainurl, String method, String jpayload) {
-        TransactionController tc = new TransactionController();
-        String urlString = tc.getRootURL()+mainurl;
-
+    public String MakeURLCall(String mainurl, String method, String jpayload) throws IOException {
+        TransactionController tc = new TransactionController(mainurl, method,jpayload, msgCtrl, idCtrl);
 
         if(method == ("GET")) {
-            Request request = new Request.Builder()
-                    .url(urlString)
-                    .build();
-
-            try (Response response = client.newCall(request).execute()) {
-                String responseBody = response.body().string();
-
-                if (mainurl.equals( "/ids")) {
-
-                    idCtrl.setIdArrayList(mapper.readValue(responseBody, new TypeReference<List<Id>>(){}));
-                    for (Id id: idCtrl.getIdArrayList()){
-                        System.out.println(id.toString());
-                    }
-
-                    return responseBody;
-                }else if (mainurl.equals("/messages")){
-
-                    msgCtrl.setMessagesSeen(mapper.readValue(responseBody, new TypeReference<HashSet<Message>>(){}));
-                    System.out.println(msgCtrl.getMessagesSeen().size());
-                    for (Message message: msgCtrl.getMessagesSeen()){
-                        System.out.println(message.toString());
-                    }
-
-                    return responseBody;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            tc.getObjectsToControllers();
         }
 
         else if(method.equals("POST")){
-            RequestBody body = RequestBody.create(JSON, jpayload);
-            Request request = new Request.Builder()
-                    .url(urlString)
-                    .post(body)
-                    .build();
-            try(Response response = client.newCall(request).execute()){
-                return response.body().string();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
+                tc.PostRespose();
+
         }
         return "data";
     }

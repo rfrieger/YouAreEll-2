@@ -9,12 +9,7 @@ import models.Message;
 
 public class MessageController {
 
-
-
-
     private HashSet<Message> messagesSeen;
-    // why a HashSet??
-
 
     public HashSet<Message> getMessagesSeen() {
         return messagesSeen;
@@ -24,23 +19,10 @@ public class MessageController {
         this.messagesSeen = messagesSeen;
     }
 
+    public void print() {
+        for (Message message : messagesSeen) {
+            System.out.println(message.toString());
+        }
 
+    }
 }
-
-
-
-
-
-//    public ArrayList<Message> getMessagesForId(Id Id) {
-//        return null;
-//    }
-//    public Message getMessageForSequence(String seq) {
-//        return null;
-//    }
-//    public ArrayList<Message> getMessagesFromFriend(Id myId, Id friendId) {
-//        return null;
-//    }
-//
-//    public Message postMessage(Id myId, Id toId, Message msg) {
-//        return null;
-//    }
