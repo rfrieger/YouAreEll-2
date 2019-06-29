@@ -1,29 +1,54 @@
 /* reseting browser styles */
+
 * {
     box-sizing: border-box;
-    font-family: system-ui;
+    font-family: 'Rubik Mono One', sans-serif;
+
+
 }
 
 body {
     margin: 0;
     color: aliceblue;
+    background-color: black;
+    background-image: url(https://cdn.pixabay.com/photo/2017/02/22/17/27/roosevelt-island-2090038_1280.jpg);
+    background-repeat: no-repeat;
+    background-position: left top;
+    opacity: .95;
+
+
+
 
 }
 
 header {
     border-bottom: 1px solid grey;
     height: 15vh;
-    padding: 20px 10px;
-    width: 100%;
+    padding: 10px 10px;
+    width: 80%;
+    margin: auto;
     border-top: 1px solid grey;
     border-bottom: 1px solid grey;
-    background-color: #8eaebd;;
+    background-color: #eac67a;
+    color: #233237;
+    opacity: .9;
+
+
+
 }
 
 header h1,
 header h2 {
-    margin-right: 10px;
-    margin-left: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+h3{
+    font-size: 10px;
+}
+
+h3 p {
+    font-size:  15px;
 }
 
 sidebar header.open {
@@ -33,54 +58,87 @@ sidebar header.open {
 sidebar header input {
     margin: 10px 0;
 }
+#background{
+    height: 40px;
+    background-color: #233237;
+    width: 80%;
+    margin: auto;
+}
 
 #thread-list,
 #message-list {
     list-style: none;
     margin: 0;
     padding: 0;
+    width: 80%;
+    margin: auto;
 }
 
 #message-list {
     height: 55vh;
     overflow: scroll;
-    background-color: #30415d;
+    background-color: #984b43;
+    width: 80%;
+    margin: auto;
 }
 
 #thread-list li {
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid #eac67a;
+    width: 80%;
+    margin: auto;
 }
 
 #thread-list li h2 {
     padding: 20px 10px;
     margin: 0;
+    width: 80%;
+    margin: auto;
 }
 
 #message-list li {
     padding: 10px 20px;
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid #eac67a;
+    color: #233237;
+    width: 80%;
+    margin: auto;
 }
 
 #new-message-form {
-    height: 100%;
+    /*height: 100%;*/
     display: flex;
     flex-direction: column;
+    background-color: #233237;
+    width: 80%;
+    margin: auto;
+
 }
 
 #new-message {
-    height: 30vh;
+    height: 5vh;
     border-top: 1px solid grey;
+    background-color: #233237;
+    width: 80%;
+    margin: auto;
+    opacity: .9;
+
 }
 
 #new-message-form textarea {
     height: 200px;
     margin: 10px;
     border-radius: 5px;
+    width: 80%;
+    margin: auto;
+
 }
 
 #new-message-form button {
     height: 50px;
     margin: 10px;
     border-radius: 5px;
-    background-color: beige;
+    background-color: #eac67a;
+    width: 50%;
+    margin: auto;
+
 }
+

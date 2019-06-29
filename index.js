@@ -3,6 +3,7 @@ import MessageService from "./message-service.js";
 let userId = "rfrieger";
 const messageService = new MessageService;
 const form = document.getElementById("new-message-form");
+const btn = document.getElementById("btn");
 
 
 window.addEventListener("load", function () {
@@ -27,13 +28,11 @@ function populateThread(messages) {
     })
 }
 
-form.addEventListener("click", createFormListener())
 
-function createFormListener() {
-
-    form.onsubmit = function (event) {
+    btn.addEventListener("click", function(){
         event.preventDefault();
-
+        console.log("test")
+        document.getElementById("textarea").value = ""
         const data = {
             fromid: userId,
             message: form.message.value
@@ -49,8 +48,8 @@ function createFormListener() {
         function errorCallback(response) {
             console.log(response);
         }
-    }
-};
+    });
+
 
 function addMessageToThread(message) {
     const messageListItem = document.createElement("LI");
