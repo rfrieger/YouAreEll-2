@@ -1,10 +1,10 @@
 export default class MessageService {
 
-
     getAllMessages() {
         const request = new XMLHttpRequest();
 
         return new Promise(function (resolve, reject) {
+            console.log("test get")
             request.onload = function () {
                 if (request.status >= 200 && request.status < 300) {
                     const threads = JSON.parse(request.responseText);
@@ -25,11 +25,13 @@ export default class MessageService {
 
     createNewMessage(message) {
         const request = new XMLHttpRequest();
-
+        console.log("test1");
         return new Promise(function (resolve, reject) {
             request.onload = function () {
+
                 if (request.status >= 200 && request.status < 300) {
                     resolve(JSON.parse(request.responseText));
+                    console.log("test 2");
                 } else {
                     reject({
                         status: request.status,
@@ -42,5 +44,5 @@ export default class MessageService {
 
             request.send(JSON.stringify(message));
         });
-    }
+    };
 }

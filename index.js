@@ -29,10 +29,10 @@ function populateThread(messages) {
 }
 
 
-    btn.addEventListener("click", function(){
+
+
+btn.addEventListener("click", function(){
         event.preventDefault();
-        console.log("test")
-        document.getElementById("textarea").value = ""
         const data = {
             fromid: userId,
             message: form.message.value
@@ -48,11 +48,13 @@ function populateThread(messages) {
         function errorCallback(response) {
             console.log(response);
         }
+        document.getElementById("textarea").value = ""
     });
 
 
 function addMessageToThread(message) {
-    const messageListItem = document.createElement("LI");
+    console.log("add message test")
+    const messageListItem = document.createElement("li");
     const userIdHeading = document.createElement("h3");
     const messageParagraph = document.createElement("p");
     const messageContent = document.createTextNode(message.message);

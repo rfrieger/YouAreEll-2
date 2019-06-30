@@ -16,13 +16,9 @@ public class MessageController {
         messagesSeen = hashSet;
     }
 
-
-    // why a HashSet??
-
     public MessageController() {
 
     }
-
 
     public LinkedHashSet<Message> getMessages() {
         return messagesSeen;
@@ -31,7 +27,6 @@ public class MessageController {
     public void setMessageSeen(LinkedHashSet<Message> messages) {
         messagesSeen = messages;
     }
-
 
     public void printMessages() {
         messagesSeen.stream().limit(5).forEach(p-> System.out.println(p.toString()));
