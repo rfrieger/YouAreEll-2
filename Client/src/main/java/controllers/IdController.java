@@ -39,6 +39,7 @@ public class IdController {
 
 
     public void printList(){
+
         iDList.stream().limit(10).forEach(p-> System.out.println(p.toString()));
     }
 
